@@ -14,7 +14,6 @@ import re
 
 
 class TwitterSearch:
-
     __metaclass__ = ABCMeta
 
     def __init__(self, rate_delay, error_delay=5):
@@ -193,7 +192,7 @@ class TwitterSearchImpl(TwitterSearch):
             self.counter += 1
 
             if tweet['created_at'] is not None:
-                t = datetime.datetime.fromtimestamp((tweet['created_at']/1000))
+                t = datetime.datetime.fromtimestamp((tweet['created_at'] / 1000))
                 fmt = "%Y-%m-%d %H:%M:%S"
                 print "%i [%s] - %s" % (self.counter, t.strftime(fmt), tweet['text'])
 
@@ -235,6 +234,7 @@ class TwitterSlicer(TwitterSearch):
     The only additional parameters a user has to input, is a minimum date, and a maximum date.
     This method also supports parallel scraping.
     """
+
     def __init__(self, rate_delay, error_delay, since, until):
         super(TwitterSlicer, self).__init__(rate_delay, error_delay)
         self.since = since
@@ -272,7 +272,7 @@ if __name__ == '__main__':
 
     search_string = ""
 
-    with open('queries.json') as f:
+    with open('./data/queries.json') as f:
         data = json.load(f)
         for x in data:
             search_string = ""
@@ -293,7 +293,8 @@ if __name__ == '__main__':
             select_tweets_since = datetime.datetime.strptime("2000-01-01", '%Y-%m-%d')
             select_tweets_until = datetime.datetime.strptime("2019-02-28", '%Y-%m-%d')
 
-            twit_slice = TwitterSlicer(rate_delay_seconds, error_delay_seconds, select_tweets_since, select_tweets_until)
+            twit_slice = TwitterSlicer(rate_delay_seconds, error_delay_seconds, select_tweets_since,
+                                       select_tweets_until)
             twit_slice.search(search_string)
 
             # # Print the tweets received(if needed)

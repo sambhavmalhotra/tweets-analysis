@@ -5,7 +5,10 @@ from textblob import TextBlob
 import re
 import itertools
 
-# These functions come from  https://github.com/adilmoujahid/Twitter_Analytics/blob/master/analyze_tweets.py and http://www.geeksforgeeks.org/twitter-sentiment-analysis-using-python//
+
+# These functions come from  https://github.com/adilmoujahid/Twitter_Analytics/blob/master/analyze_tweets.py and
+# http://www.geeksforgeeks.org/twitter-sentiment-analysis-using-python//
+
 
 def extract_link(text):
     """
@@ -16,6 +19,7 @@ def extract_link(text):
     if match:
         return match.group()
     return ''
+
 
 def word_in_text(word, text):
     """
@@ -29,12 +33,14 @@ def word_in_text(word, text):
         return True
     return False
 
+
 def clean_tweet(tweet):
-        '''
-        Utility function to clean tweet text by removing links, special characters
-        using simple regex statements.
-        '''
-        return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
+    '''
+    Utility function to clean tweet text by removing links, special characters
+    using simple regex statements.
+    '''
+    return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
+
 
 def get_tweet_sentiment(tweet):
     '''
@@ -51,9 +57,10 @@ def get_tweet_sentiment(tweet):
     else:
         return 'negative'
 
+
 # Load up the file generated from the Twitter stream capture.
 # I've assumed it's loaded in a folder called data which I won't upload because git.
-tweets_data_path = './legoGardens2019.txt'
+tweets_data_path = './data/legoGardens2019.txt'
 
 tweets_data = []
 tweets_file = open(tweets_data_path, "r")
@@ -74,7 +81,7 @@ tweets['user_name'] = map(lambda tweet: tweet['user_name'] if tweet['user_name']
 tweets['text'] = map(lambda tweet: tweet['text'], tweets_data)
 tweets['retweets'] = map(lambda tweet: tweet['retweets'], tweets_data)
 
-with open('queries.json') as f:
+with open('./data/queries.json') as f:
     data = json.load(f)
 
 for x in data:
@@ -85,9 +92,9 @@ for x in data:
     value = value[:-1]
     tweets[key] = tweets['text'].apply(
         lambda tweet: word_in_text(r'(' + value + ')', tweet))
-        # tweets['universal'] = tweets['text'].apply(lambda tweet: word_in_text(
-        #     r'(universalstudiossingapore|universalstudiosingapore|universalstudios|universalstudio)', tweet))
-        # tweets['lego'] = tweets['text'].apply(lambda tweet: word_in_text(r'(legolandmalaysia|legoland|lego)', tweet))
+    # tweets['universal'] = tweets['text'].apply(lambda tweet: word_in_text(
+    #     r'(universalstudiossingapore|universalstudiosingapore|universalstudios|universalstudio)', tweet))
+    # tweets['lego'] = tweets['text'].apply(lambda tweet: word_in_text(r'(legolandmalaysia|legoland|lego)', tweet))
 
 # tweets['link'] = tweets['text'].apply(lambda tweet: extract_link(tweet))
 tweets['sentiment'] = tweets['text'].apply(lambda tweet: get_tweet_sentiment(tweet))
@@ -114,8 +121,6 @@ for index, tweet in tweets.iterrows():
             park.append(x['key'])
     if flag is None:
         park.append('unknown')
-
-
 
 # for index, tweet in tweets.iterrows():
 #     if tweet['gardens']:
@@ -155,7 +160,7 @@ plt.show()
 
 # Create a graph of the proportion of postive, negative and neutral tweets for each park
 # I have to do two groupby's here because I want proportion within each park, not global proportions.
-sent_by_park = tweets.groupby(['park', 'sentiment']).size().groupby(level = 0).transform(lambda x: x/x.sum()).unstack()
-sent_by_park.plot(kind = 'bar' )
+sent_by_park = tweets.groupby(['park', 'sentiment']).size().groupby(level=0).transform(lambda x: x / x.sum()).unstack()
+sent_by_park.plot(kind='bar')
 plt.title("Tweet Sentiment proportions by park Jan '18 - Feb '19")
 plt.show()

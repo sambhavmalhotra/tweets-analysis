@@ -11,7 +11,6 @@ import logging as log
 
 
 class TwitterSearch:
-
     __metaclass__ = ABCMeta
 
     def __init__(self, rate_delay, error_delay=5):
@@ -190,7 +189,7 @@ class TwitterSearchImpl(TwitterSearch):
             self.counter += 1
 
             if tweet['created_at'] is not None:
-                t = datetime.datetime.fromtimestamp((tweet['created_at']/1000))
+                t = datetime.datetime.fromtimestamp((tweet['created_at'] / 1000))
                 fmt = "%Y-%m-%d %H:%M:%S"
                 print "%i [%s] - %s" % (self.counter, t.strftime(fmt), tweet['text'])
 
@@ -208,6 +207,7 @@ class TwitterSlicer(TwitterSearch):
     The only additional parameters a user has to input, is a minimum date, and a maximum date.
     This method also supports parallel scraping.
     """
+
     def __init__(self, rate_delay, error_delay, since, until):
         super(TwitterSlicer, self).__init__(rate_delay, error_delay)
         self.since = since
@@ -228,12 +228,12 @@ class TwitterSlicer(TwitterSearch):
         Just prints out tweets
         :return: True always
         """
-        file = open('legoGardens2019.txt', 'a')
+        file = open('./data/legoGardens2019.txt', 'a')
         for tweet in tweets:
             # Lets add a counter so we only collect a max number of tweets
             self.counter += 1
             if tweet['created_at'] is not None:
-                t = datetime.datetime.fromtimestamp((tweet['created_at']/1000))
+                t = datetime.datetime.fromtimestamp((tweet['created_at'] / 1000))
                 fmt = "%Y-%m-%d %H:%M:%S"
                 # log.info("%i [%s] - %s" % (self.counter, t.strftime(fmt), tweet['text']))
                 log.info(tweet['text'])
@@ -248,7 +248,7 @@ if __name__ == '__main__':
 
     searchString = ""
 
-    with open('queries.json') as f:
+    with open('./data/queries.json') as f:
         data = json.load(f)
         for x in data:
             searchString = ""
@@ -256,13 +256,13 @@ if __name__ == '__main__':
                 searchString += (" (" + y + ") " + "OR")
             searchString = searchString[:-3]
 
-    # search_query = "#LegoLandMalaysia OR (#LegoLand AND #Malaysia)"
+            # search_query = "#LegoLandMalaysia OR (#LegoLand AND #Malaysia)"
             rate_delay_seconds = 0
             error_delay_seconds = 5
 
-    # # Example of using TwitterSearch
-    # twit = TwitterSearchImpl(rate_delay_seconds, error_delay_seconds, None)
-    # twit.search(search_query)
+            # # Example of using TwitterSearch
+            # twit = TwitterSearchImpl(rate_delay_seconds, error_delay_seconds, None)
+            # twit.search(search_query)
 
             # Example of using TwitterSlice
             select_tweets_since = datetime.datetime.strptime("2019-02-01", '%Y-%m-%d')

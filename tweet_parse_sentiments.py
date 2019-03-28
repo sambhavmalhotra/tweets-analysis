@@ -6,7 +6,9 @@ import re
 import seaborn as sns
 from IPython.display import display
 
-# These functions come from  https://github.com/adilmoujahid/Twitter_Analytics/blob/master/analyze_tweets.py and http://www.geeksforgeeks.org/twitter-sentiment-analysis-using-python//
+
+# These functions come from  https://github.com/adilmoujahid/Twitter_Analytics/blob/master/analyze_tweets.py
+# and http://www.geeksforgeeks.org/twitter-sentiment-analysis-using-python//
 
 def extract_link(text):
     """
@@ -17,6 +19,7 @@ def extract_link(text):
     if match:
         return match.group()
     return ''
+
 
 def word_in_text(word, text):
     """
@@ -30,12 +33,14 @@ def word_in_text(word, text):
         return True
     return False
 
+
 def clean_tweet(tweet):
-        '''
-        Utility function to clean tweet text by removing links, special characters
-        using simple regex statements.
-        '''
-        return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
+    '''
+    Utility function to clean tweet text by removing links, special characters
+    using simple regex statements.
+    '''
+    return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
+
 
 def get_tweet_sentiment(tweet):
     '''
@@ -52,9 +57,10 @@ def get_tweet_sentiment(tweet):
     else:
         return 'negative'
 
+
 # Load up the file generated from the Twitter stream capture.
 # I've assumed it's loaded in a folder called data which I won't upload because git.
-tweets_data_path = './legowithquery.txt'
+tweets_data_path = './data/legowithquery.txt'
 
 tweets_data = []
 tweets_file = open(tweets_data_path, "r")
@@ -81,14 +87,15 @@ print "neutral: " + str(counter['neutral'])
 
 colors = ['green', 'red', 'grey']
 sizes = [counter['positive'], counter['negative'], counter['neutral']]
-labels = 'Positive: ' + str(counter['positive']), 'Negative: ' + str(counter['negative']), 'Neutral: ' + str(counter['neutral'])
+labels = 'Positive: ' + str(counter['positive']), 'Negative: ' + str(counter['negative']), 'Neutral: ' + str(
+    counter['neutral'])
 
 plt.pie(
-   x=sizes,
-   shadow=True,
-   colors=colors,
-   labels=labels,
-   startangle=90
+    x=sizes,
+    shadow=True,
+    colors=colors,
+    labels=labels,
+    startangle=90
 )
 
 plt.title("Sentiments - {} tweets - {} - Jan '18 - Feb '19".format("all", "#LegoLandMalaysia"))

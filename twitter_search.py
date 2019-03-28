@@ -11,7 +11,6 @@ import logging as log
 
 
 class TwitterSearch:
-
     __metaclass__ = ABCMeta
 
     def __init__(self, rate_delay, error_delay=5):
@@ -190,7 +189,7 @@ class TwitterSearchImpl(TwitterSearch):
             self.counter += 1
 
             if tweet['created_at'] is not None:
-                t = datetime.datetime.fromtimestamp((tweet['created_at']/1000))
+                t = datetime.datetime.fromtimestamp((tweet['created_at'] / 1000))
                 fmt = "%Y-%m-%d %H:%M:%S"
                 print "%i [%s] - %s" % (self.counter, t.strftime(fmt), tweet['text'])
 
@@ -208,6 +207,7 @@ class TwitterSlicer(TwitterSearch):
     The only additional parameters a user has to input, is a minimum date, and a maximum date.
     This method also supports parallel scraping.
     """
+
     def __init__(self, rate_delay, error_delay, since, until):
         super(TwitterSlicer, self).__init__(rate_delay, error_delay)
         self.since = since
@@ -228,12 +228,12 @@ class TwitterSlicer(TwitterSearch):
         Just prints out tweets
         :return: True always
         """
-        file = open('temp.txt', 'a')
+        file = open('./data/temp.txt', 'a')
         for tweet in tweets:
             # Lets add a counter so we only collect a max number of tweets
             self.counter += 1
             if tweet['created_at'] is not None:
-                t = datetime.datetime.fromtimestamp((tweet['created_at']/1000))
+                t = datetime.datetime.fromtimestamp((tweet['created_at'] / 1000))
                 fmt = "%Y-%m-%d %H:%M:%S"
                 # log.info("%i [%s] - %s" % (self.counter, t.strftime(fmt), tweet['text']))
                 log.info(tweet['text'])
