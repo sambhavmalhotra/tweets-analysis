@@ -1,0 +1,19 @@
+[{
+  "name": "Gardens By The Bay",
+  "key": "gardensSingapore",
+  "place": "Singapore",
+  "queries": ["#gardensbythebay", "#gardenbythebay", "#gardens AND #bay AND #singapore"],
+  "keywords": ["gardensbythebay", "gardenbythebay", "garden", "bay"]
+}, {
+  "name": "Universal Studios",
+  "key": "universalSingapore",
+  "place": "Singapore",
+  "queries": ["#universalstudiossingapore", "#universalstudiosingapore", "#universalstudios AND #singapore", "#universalstudio AND #singapore"],
+  "keywords": ["universalstudiossingapore", "universalstudiosingapore", "universalstudios", "universalstudio"]
+}, {
+  "name": "Lego Land",
+  "key": "legoMalaysia",
+  "place": "Malaysia",
+  "queries": ["#legolandmalaysia", "#legoland AND #malaysia", "#lego AND #malaysia"],
+  "keywords": ["legolandmalaysia", "legoland", "lego"]
+}]
